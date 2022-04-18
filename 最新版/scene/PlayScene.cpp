@@ -47,7 +47,9 @@ void PlayScene::Finalize() {
 void PlayScene::Update(DirectXCommon* dxCommon) {
 	camera->Update();
 	object1->Update();
-
+	if (input->TriggerKey(DIK_SPACE)) {
+		object1->PlayAnimation();
+	}
 }
 
 void PlayScene::Draw(DirectXCommon* dxCommon) {

@@ -14,8 +14,7 @@ Camera* FBXObject3d::camera = nullptr;
 ComPtr<ID3D12RootSignature> FBXObject3d::rootsignature;
 ComPtr<ID3D12PipelineState> FBXObject3d::pipelinestate;
 
-void FBXObject3d::CreateGraphicsPipeline()
-{
+void FBXObject3d::CreateGraphicsPipeline() {
 	HRESULT result = S_FALSE;
 	ComPtr<ID3DBlob> vsBlob; // 頂点シェーダオブジェクト
 	ComPtr<ID3DBlob> psBlob;    // ピクセルシェーダオブジェクト
@@ -174,8 +173,7 @@ void FBXObject3d::CreateGraphicsPipeline()
 	if (FAILED(result)) { assert(0); }
 }
 
-void FBXObject3d::Initialize()
-{
+void FBXObject3d::Initialize() {
 	HRESULT result;
 	// 定数バッファの生成
 	result = device->CreateCommittedResource(
@@ -198,8 +196,7 @@ void FBXObject3d::Initialize()
 	frameTime.SetTime(0, 0, 0, 1, 0, FbxTime::EMode::eFrames60);
 }
 
-void FBXObject3d::Update()
-{
+void FBXObject3d::Update() {
 	XMMATRIX matScale, matRot, matTrans;
 
 	// スケール、回転、平行移動行列の計算
@@ -263,8 +260,7 @@ void FBXObject3d::Update()
 	constBuffSkin->Unmap(0, nullptr);
 }
 
-void FBXObject3d::Draw(ID3D12GraphicsCommandList* cmdList)
-{
+void FBXObject3d::Draw(ID3D12GraphicsCommandList* cmdList) {
 	// モデルの割り当てがなければ描画しない
 	if (model == nullptr) {
 		return;
@@ -285,8 +281,7 @@ void FBXObject3d::Draw(ID3D12GraphicsCommandList* cmdList)
 	model->Draw(cmdList);
 }
 
-void FBXObject3d::PlayAnimation()
-{
+void FBXObject3d::PlayAnimation() {
 	FbxScene* fbxScene = model->GetFbxScene();
 	//0番のアニメーション取得
 	FbxAnimStack* animstack = fbxScene->GetSrcObject<FbxAnimStack>(0);

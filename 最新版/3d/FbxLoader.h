@@ -12,6 +12,7 @@ class FbxLoader
 private:	//エイリアス
 //std::を省略
 	using string = std::string;
+
 public:
 	/// <summary>
 	/// シングルトンインスタンスの取得

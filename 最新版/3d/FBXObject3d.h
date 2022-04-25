@@ -1,3 +1,4 @@
+
 #pragma once
 
 #include "FBXModel.h"
@@ -10,8 +11,7 @@
 
 #include <string>
 
-class FBXObject3d
-{
+class FBXObject3d {
 protected: // エイリアス
 	// Microsoft::WRL::を省略
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
@@ -25,14 +25,12 @@ public:	//定数
 	static const int MAX_BONES = 32;
 
 	//定数バッファ用データ構造体（スキニング）
-	struct ConstBufferDataSkin
-	{
+	struct ConstBufferDataSkin {
 		XMMATRIX bones[MAX_BONES];
 	};
 public: // サブクラス
 	// 定数バッファ用データ構造体（座標変換行列用）
-	struct ConstBufferDataTransform
-	{
+	struct ConstBufferDataTransform {
 		XMMATRIX viewproj;    // ビュープロジェクション行列
 		XMMATRIX world; // ワールド行列
 		XMFLOAT3 cameraPos; // カメラ座標（ワールド座標）

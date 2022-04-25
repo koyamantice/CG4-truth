@@ -13,7 +13,7 @@
 #include"FPSManager.h"
 #include"ModelManager.h"
 #include "XorShift.h"
-
+#include "PostEffect.h"
 /// <summary>
 /// フレームワーク
 /// </summary>
@@ -47,7 +47,7 @@ protected:
 	bool endResquest_ = false;
 	WinApp* winApp = nullptr;
 	DirectXCommon* dxcommon = nullptr;
-
+	PostEffect* postEffect = nullptr;
 	Input* input = nullptr;
 	Audio* audio = nullptr;
 	FPSManager* fps = nullptr;

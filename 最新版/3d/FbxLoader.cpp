@@ -130,31 +130,6 @@ void FbxLoader::ParseNodeRecursive(FBXModel* FBXModel, FbxNode* fbxNode, Node* p
     }
 }
 
-void FbxLoader::ParseMesh(FBXModel* FBXModel, FbxNode* fbxNode) {
-    //ノードのメッシュを取得
-    FbxMesh* fbxMesh = fbxNode->GetMesh();
-
-    //頂点座標読み取り
-    ParseMeshVertices(FBXModel, fbxMesh);
-    //面を構成するでーたの読み取り
-    ParseMeshFaces(FBXModel, fbxMesh);
-    //マテリアルの読み取り
-    ParseMaterial(FBXModel, fbxNode);
-    //スキニング情報の読み取り
-    ParseSkin(FBXModel, fbxMesh);
-}
-
-void FbxLoader::ConvertMatrixFromFbx(DirectX::XMMATRIX* dst, const FbxAMatrix& src) {
-    //行
-    for (int i = 0; i < 4; i++) {
-        //列
-        for (int j = 0; j < 4; j++) {
-            //1要素コピー
-            dst->r[i].m128_f32[j] = (float)src.Get(i, j);
-        }
-    }
-}
-
 void FbxLoader::ParseMeshVertices(FBXModel* FBXModel, FbxMesh* fbxMesh) {
     auto& vertices = FBXModel->vertices;
 
@@ -240,6 +215,31 @@ void FbxLoader::ParseMeshFaces(FBXModel* FBXModel, FbxMesh* fbxMesh) {
                 indices.push_back(index3);
                 indices.push_back(index0);
             }
+        }
+    }
+}
+
+void FbxLoader::ParseMesh(FBXModel* FBXModel, FbxNode* fbxNode) {
+    //ノードのメッシュを取得
+    FbxMesh* fbxMesh = fbxNode->GetMesh();
+
+    //頂点座標読み取り
+    ParseMeshVertices(FBXModel, fbxMesh);
+    //面を構成するでーたの読み取り
+    ParseMeshFaces(FBXModel, fbxMesh);
+    //マテリアルの読み取り
+    ParseMaterial(FBXModel, fbxNode);
+    //スキニング情報の読み取り
+    ParseSkin(FBXModel, fbxMesh);
+}
+
+void FbxLoader::ConvertMatrixFromFbx(DirectX::XMMATRIX* dst, const FbxAMatrix& src) {
+    //行
+    for (int i = 0; i < 4; i++) {
+        //列
+        for (int j = 0; j < 4; j++) {
+            //1要素コピー
+            dst->r[i].m128_f32[j] = (float)src.Get(i, j);
         }
     }
 }

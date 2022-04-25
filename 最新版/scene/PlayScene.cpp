@@ -3,7 +3,7 @@
 #include "DebugText.h"
 #include "TitleScene.h"
 #include "FbxLoader.h"
-#include"Collision.h"
+#include "Collision.h"
 #include "TouchableObject.h"
 #include "MeshCollider.h"
 #include "SphereCollider.h"
@@ -12,8 +12,8 @@
 void PlayScene::Initialize(DirectXCommon* dxCommon) {
 	// カメラ生成
 	camera = new DebugCamera(WinApp::window_width, WinApp::window_height);
-	camera->SetTarget({0,0,0});
-	camera->SetDistance(100.0f);
+	camera->SetTarget({0,2.5f,0});
+	camera->SetDistance(1.0f);
 	// ライト生成
 	lightGroup = LightGroup::Create();
 
@@ -22,9 +22,9 @@ void PlayScene::Initialize(DirectXCommon* dxCommon) {
 	Object3d::SetCamera(camera);
 	// 3Dオブエクトにライトをセット
 	Object3d::SetLightGroup(lightGroup);
-
 	//背景スプライト生成
-
+	Sprite::LoadTexture(0, L"Resources/2d/background.png");
+	BG=Sprite::Create(0, {0,0});
 	// モデル読み込み
 	Audio::GetInstance()->LoadSound(1, "Resources/BGM/NewWorld.wav");
 	model1 = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
@@ -37,6 +37,7 @@ void PlayScene::Initialize(DirectXCommon* dxCommon) {
 	object1 = new FBXObject3d;
 	object1->Initialize();
 	object1->SetModel(model1);
+	object1->SetRotation({0,90,0});
 }
 
 void PlayScene::Finalize() {
@@ -67,6 +68,8 @@ void PlayScene::Draw(DirectXCommon* dxCommon) {
 		ImGui::TreePop();
 	}
 	ImGui::End();
+	Sprite::PreDraw();
+	BG->Draw();
 	Object3d::PreDraw();
 	object1->Draw(dxCommon->GetCmdList());
 

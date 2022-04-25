@@ -29,7 +29,7 @@ private:
 	// 入力クラスのポインタ
 	Input* input;
 	// カメラ注視点までの距離
-	float distance = 20;
+	float distance = 10;
 	// スケーリング
 	float scaleX = 1.0f;
 	float scaleY = 1.0f;

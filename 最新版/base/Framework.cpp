@@ -44,6 +44,12 @@ void Framework::Initialize(DirectXCommon* dxCommon) {
 	// スプライト静的初期化
 	Sprite::StaticInitialize(dxcommon->GetDev(), dxcommon->GetCmdList(),WinApp::window_width, WinApp::window_height);
 
+	Sprite::LoadTexture(100, L"Resources/2d/white1x1.png");
+
+	postEffect = new PostEffect();
+	postEffect->Initialize();
+
+
 	const int debugTextTexNumber = 0;
 	// デバッグテキスト用テクスチャ読み込み
 	if (!Sprite::LoadTexture(debugTextTexNumber, L"Resources/2d/debugfont.png")) {
@@ -81,6 +87,7 @@ void Framework::Initialize(DirectXCommon* dxCommon) {
 
 void Framework::Finalize() {
 	delete sceneFactory_;
+	delete postEffect;
 	winApp->Finalize();
 	delete winApp;
 }
@@ -98,8 +105,8 @@ void Framework::Update(DirectXCommon* dxCommon) {
 
 void Framework::Draw(DirectXCommon* dxCommon) {
 	dxCommon->PreDraw();
-
-	SceneManager::GetInstance()->Draw(dxCommon);
+	postEffect->Draw(dxCommon->GetCmdList());
+	//SceneManager::GetInstance()->Draw(dxCommon);
 
 	debugText->DrawAll();
 	dxCommon->PostDraw();

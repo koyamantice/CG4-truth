@@ -172,6 +172,9 @@
     <ClCompile Include="base\FPSManager.cpp">
       <Filter>base</Filter>
     </ClCompile>
+    <ClCompile Include="2d\PostEffect.cpp">
+      <Filter>2d</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="base\Framework.h">
@@ -326,6 +329,9 @@
     </ClInclude>
     <ClInclude Include="scene\PlayScene.h">
       <Filter>main</Filter>
+    </ClInclude>
+    <ClInclude Include="2d\PostEffect.h">
+      <Filter>2d</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -54,20 +54,20 @@ void PlayScene::Update(DirectXCommon* dxCommon) {
 }
 
 void PlayScene::Draw(DirectXCommon* dxCommon) {
-	ImGui::Begin("test");
-	if (ImGui::TreeNode("Debug"))
-	{
-		if (ImGui::TreeNode("Field"))
-		{
-			float a = (float)XorShift::GetInstance()->xor128();
-			ImGui::SliderFloat("a", &a, 100, 0);
-			//ImGui::SliderFloat("b", &distanceZ, 50, -50);
-			ImGui::Unindent();
-			ImGui::TreePop();
-		}
-		ImGui::TreePop();
-	}
-	ImGui::End();
+	//ImGui::Begin("test");
+	//if (ImGui::TreeNode("Debug"))
+	//{
+	//	if (ImGui::TreeNode("Field"))
+	//	{
+	//		float a = (float)XorShift::GetInstance()->xor128();
+	//		ImGui::SliderFloat("a", &a, 100, 0);
+	//		//ImGui::SliderFloat("b", &distanceZ, 50, -50);
+	//		ImGui::Unindent();
+	//		ImGui::TreePop();
+	//	}
+	//	ImGui::TreePop();
+	//}
+	//ImGui::End();
 	Sprite::PreDraw();
 	BG->Draw();
 	Object3d::PreDraw();

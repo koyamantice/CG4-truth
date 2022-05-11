@@ -3,6 +3,10 @@
 #include "WinApp.h"
 
 using namespace DirectX;
+
+//静的メンバ変数の実体
+//
+const float PostEffect::clearColor[4] = {0.25f,0.5f,0.1f,1.0f};
 PostEffect::PostEffect()
 	:Sprite(
 		100,
@@ -33,7 +37,7 @@ void PostEffect::Initialize() {
 		D3D12_HEAP_FLAG_NONE,
 		&texresDesc,
 		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
-		nullptr,
+		&CD3DX12_CLEAR_VALUE(DXGI_FORMAT_R8G8B8A8_UNORM,clearColor),
 		IID_PPV_ARGS(&texBuff));
 	assert(SUCCEEDED(result));
 	{//テクスチャを赤
@@ -52,6 +56,54 @@ void PostEffect::Initialize() {
 		assert(SUCCEEDED(result));
 		delete[] img;
 	}
+
+	//RTVディスクリプタ
+	D3D12_DESCRIPTOR_HEAP_DESC rtvDescHeapDesc = {};
+	rtvDescHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
+	rtvDescHeapDesc.NumDescriptors = 1;
+	//ディスクリプタヒープ
+	result = device->CreateDescriptorHeap(&rtvDescHeapDesc, IID_PPV_ARGS(&descHeapRTV));
+	assert(SUCCEEDED(result));
+
+	device->CreateRenderTargetView(texBuff.Get(),
+		nullptr,
+		descHeapRTV->GetCPUDescriptorHandleForHeapStart());
+
+	//
+	CD3DX12_RESOURCE_DESC depthResDesc =
+		CD3DX12_RESOURCE_DESC::Tex2D(
+			DXGI_FORMAT_D32_FLOAT,
+			WinApp::window_width,
+			WinApp::window_height,
+			1,0,
+			1,0,
+			D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL
+		);
+	//
+	result = device->CreateCommittedResource(
+		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),
+		D3D12_HEAP_FLAG_NONE,
+		&depthResDesc,
+		D3D12_RESOURCE_STATE_DEPTH_WRITE,
+		&CD3DX12_CLEAR_VALUE(DXGI_FORMAT_D32_FLOAT, 1.0f, 0),
+		IID_PPV_ARGS(&depthBuff));
+	assert(SUCCEEDED(result));
+	//DSVディスクリプタ
+	D3D12_DESCRIPTOR_HEAP_DESC DescHeapDesc = {};
+	DescHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
+	DescHeapDesc.NumDescriptors = 1;
+	//ディスクリプタヒープ
+	result = device->CreateDescriptorHeap(&DescHeapDesc, IID_PPV_ARGS(&descHeapDSV));
+	assert(SUCCEEDED(result));
+	//DSV
+	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc{};
+	dsvDesc.Format = DXGI_FORMAT_D32_FLOAT;
+	dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
+	device->CreateDepthStencilView(depthBuff.Get(),
+		&dsvDesc,
+		descHeapDSV->GetCPUDescriptorHandleForHeapStart());
+
+	
 	//SRVディスクリプタ
 	D3D12_DESCRIPTOR_HEAP_DESC srvDescHeapDesc = {};
 	srvDescHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
@@ -106,4 +158,37 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList) {
 	cmdList->SetGraphicsRootDescriptorTable(1, descHeap->GetGPUDescriptorHandleForHeapStart());
 	// 描画コマンド
 	cmdList->DrawInstanced(4, 1, 0, 0);
+}
+
+void PostEffect::PreDrawScene(ID3D12GraphicsCommandList* cmdList) {
+	//リソースバリア
+	cmdList->ResourceBarrier(1,
+		&CD3DX12_RESOURCE_BARRIER::Transition(texBuff.Get(),
+			D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
+			D3D12_RESOURCE_STATE_RENDER_TARGET));
+	//ヒープハンドル取得
+	D3D12_CPU_DESCRIPTOR_HANDLE rtvH =
+		descHeapRTV->GetCPUDescriptorHandleForHeapStart();
+	D3D12_CPU_DESCRIPTOR_HANDLE dsvH =
+		descHeapDSV->GetCPUDescriptorHandleForHeapStart();
+	//レンダーターゲット
+	cmdList->OMSetRenderTargets(1,&rtvH,false,&dsvH);
+	//ビューポート
+	cmdList->RSSetViewports(1,&CD3DX12_VIEWPORT(0.0f,0.0f,
+		WinApp::window_width,WinApp::window_height));
+	//シザリング
+	cmdList->RSSetScissorRects(1,&CD3DX12_RECT(0,0,WinApp::window_width,
+		WinApp::window_height));
+	//全面クリア
+	cmdList->ClearRenderTargetView(rtvH, clearColor, 0, nullptr);
+	//深度バッファ
+	cmdList->ClearDepthStencilView(dsvH,D3D12_CLEAR_FLAG_DEPTH,1.0f,0,0,
+		nullptr);
+
+}
+
+void PostEffect::PostDrawScene(ID3D12GraphicsCommandList* cmdList) {
+	cmdList->ResourceBarrier(1,&CD3DX12_RESOURCE_BARRIER::Transition(texBuff.Get(),
+		D3D12_RESOURCE_STATE_RENDER_TARGET,D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE));
+
 }

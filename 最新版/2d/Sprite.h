@@ -171,6 +171,13 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
+
+
+	/// <summary>
+	/// 頂点バッファの生成
+	/// </summary>
+	bool CreateVertices();
+
 protected: // メンバ変数
 	// 頂点バッファ
 	ComPtr<ID3D12Resource> vertBuff;

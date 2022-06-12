@@ -68,8 +68,9 @@ void PlayScene::Draw(DirectXCommon* dxCommon) {
 	//	ImGui::TreePop();
 	//}
 	//ImGui::End();
-	Sprite::PreDraw();
-	BG->Draw();
+	//Sprite::PreDraw();
+	//BG->Draw();
+
 	Object3d::PreDraw();
 	object1->Draw(dxCommon->GetCmdList());
 

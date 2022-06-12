@@ -26,6 +26,9 @@ public:
     /// </summary>
     /// <param name="cmdList">コマンドリスト</param>
     void PostDrawScene(ID3D12GraphicsCommandList* cmdList);
+
+
+    void CreateGraphicsPipelineState();
 public:
     ComPtr<ID3D12Resource> texBuff;
 
@@ -35,7 +38,16 @@ public:
     ComPtr<ID3D12DescriptorHeap> descHeapDSV;
 
 private:
+    // Microsoft::WRL::を省略
+    template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+private:
     //画面クリアカラー
     static const float clearColor[4];
+    // ルートシグネチャ
+    static ComPtr<ID3D12RootSignature> rootSignature;
+    // パイプラインステートオブジェクト
+    static ComPtr<ID3D12PipelineState> pipelineState;
+
+
 };
 

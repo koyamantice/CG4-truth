@@ -1,7 +1,7 @@
 #include "PostEffect.h"
-#include <cassert>
-#include<d3dx12.h>
 #include "WinApp.h"
+#include <cassert>
+#include <d3dx12.h>
 #include <d3dcompiler.h>
 #include <DirectXTex.h>
 
@@ -10,8 +10,8 @@ using namespace DirectX;
 /// <summary>
 /// 静的メンバ変数の実体
 /// </summary>
-ComPtr<ID3D12RootSignature> PostEffect::rootSignature;
-ComPtr<ID3D12PipelineState> PostEffect::pipelineState;
+Microsoft::WRL::ComPtr<ID3D12RootSignature> PostEffect::rootSignature;
+Microsoft::WRL::ComPtr<ID3D12PipelineState> PostEffect::pipelineState;
 
 //静的メンバ変数の実体
 //

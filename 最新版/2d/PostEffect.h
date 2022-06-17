@@ -36,6 +36,10 @@ public:
     ComPtr<ID3D12Resource> depthBuff;
     ComPtr<ID3D12DescriptorHeap> descHeapRTV;
     ComPtr<ID3D12DescriptorHeap> descHeapDSV;
+    // ルートシグネチャ
+    static ComPtr<ID3D12RootSignature> rootSignature;
+    // パイプラインステートオブジェクト
+    static ComPtr<ID3D12PipelineState> pipelineState;
 
 private:
     // Microsoft::WRL::を省略
@@ -43,10 +47,6 @@ private:
 private:
     //画面クリアカラー
     static const float clearColor[4];
-    // ルートシグネチャ
-    static ComPtr<ID3D12RootSignature> rootSignature;
-    // パイプラインステートオブジェクト
-    static ComPtr<ID3D12PipelineState> pipelineState;
 
 
 };

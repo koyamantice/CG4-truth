@@ -18,7 +18,7 @@ float4 main(VSOutput input) :SV_TARGET
 	float4 color = float4(1.0f, 1.0f, 1.0f, 1.0f);
 
 	float2 movePixel = 1.0f / 0.2f;
-	movePixel *= 0.0001;
+	movePixel *= 0.0001f;
 
 	// ぼかし処理をかける
 	color = tex.Sample(smp, input.uv);  // 自分自身のピクセル

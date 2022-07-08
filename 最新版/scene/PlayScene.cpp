@@ -38,6 +38,16 @@ void PlayScene::Initialize(DirectXCommon* dxCommon) {
 	object1->Initialize();
 	object1->SetModel(model1);
 	object1->SetRotation({0,90,0});
+
+	model = Model::CreateFromOBJ("chr_knight");
+
+	object = new Object3d;
+	object->Initialize();
+	object->SetModel(model);
+	object->SetPosition({3,0,0});
+	object->SetRotation({ 0,0,0 });
+
+
 }
 
 void PlayScene::Finalize() {
@@ -48,6 +58,7 @@ void PlayScene::Finalize() {
 void PlayScene::Update(DirectXCommon* dxCommon) {
 	camera->Update();
 	object1->Update();
+	object->Update();
 	if (input->TriggerKey(DIK_SPACE)) {
 		object1->PlayAnimation();
 	}
@@ -72,6 +83,7 @@ void PlayScene::Draw(DirectXCommon* dxCommon) {
 	//BG->Draw();
 
 	Object3d::PreDraw();
+	object->Draw();
 	object1->Draw(dxCommon->GetCmdList());
 
 }

@@ -43,8 +43,5 @@ float4 main(VSOutput input) :SV_TARGET
 	//// ‘«‚µ‡‚í‚¹‚½ƒsƒNƒZƒ‹‚Ì•½‹Ï‚ğ‹‚ß‚é
 	//color /= 9.0f;
 
-
-
-
 	return float4(color.rgb,1);
 }

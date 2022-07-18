@@ -116,6 +116,8 @@ void Framework::Draw(DirectXCommon* dxCommon) {
 		postEffect->Draw(dxCommon->GetCmdList());
 		debugText->DrawAll();
 		dxCommon->PostDraw();
+		SceneManager::GetInstance()->ImGuiDraw();
+
 	} else {
 		postEffect->PreDrawScene(dxCommon->GetCmdList());
 		//SceneManager::GetInstance()->Draw(dxCommon);
@@ -125,5 +127,6 @@ void Framework::Draw(DirectXCommon* dxCommon) {
 		SceneManager::GetInstance()->Draw(dxCommon);
 		debugText->DrawAll();
 		dxCommon->PostDraw();
+		SceneManager::GetInstance()->ImGuiDraw();
 	}
 }

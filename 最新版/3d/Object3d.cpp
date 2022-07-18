@@ -27,6 +27,7 @@ XMMATRIX Object3d::matBillboard = XMMatrixIdentity();
 XMMATRIX Object3d::matBillboardY = XMMatrixIdentity();
 Camera* Object3d::camera = nullptr;
 LightGroup* Object3d::lightGroup = nullptr;
+bool Object3d::Only = true;
 
 
 
@@ -155,53 +156,101 @@ void Object3d::CreateGraphicsPipeline()
 	ComPtr<ID3DBlob> errorBlob; // エラーオブジェクト
 
 	// 頂点シェーダの読み込みとコンパイル
-	result = D3DCompileFromFile(
-		//L"Resources/shaders/BasicVertexShader.hlsl",	// シェーダファイル名
-		L"Resources/shaders/BasicVS.hlsl",
-		nullptr,
-		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
-		"main", "vs_5_0",	// エントリーポイント名、シェーダーモデル指定
-		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用設定
-		0,
-		&vsBlob, &errorBlob);
-	if (FAILED(result)) {
-		// errorBlobからエラー内容をstring型にコピー
-		std::string errstr;
-		errstr.resize(errorBlob->GetBufferSize());
+	if (Only) {
+		result = D3DCompileFromFile(
+			//L"Resources/shaders/BasicVertexShader.hlsl",	// シェーダファイル名
+			L"Resources/shaders/BasicVS.hlsl",
+			nullptr,
+			D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
+			"main", "vs_5_0",	// エントリーポイント名、シェーダーモデル指定
+			D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用設定
+			0,
+			&vsBlob, &errorBlob);
+		if (FAILED(result)) {
+			// errorBlobからエラー内容をstring型にコピー
+			std::string errstr;
+			errstr.resize(errorBlob->GetBufferSize());
 
-		std::copy_n((char*)errorBlob->GetBufferPointer(),
-			errorBlob->GetBufferSize(),
-			errstr.begin());
-		errstr += "\n";
-		// エラー内容を出力ウィンドウに表示
-		OutputDebugStringA(errstr.c_str());
-		exit(1);
+			std::copy_n((char*)errorBlob->GetBufferPointer(),
+				errorBlob->GetBufferSize(),
+				errstr.begin());
+			errstr += "\n";
+			// エラー内容を出力ウィンドウに表示
+			OutputDebugStringA(errstr.c_str());
+			exit(1);
+		}
+
+		// ピクセルシェーダの読み込みとコンパイル
+		result = D3DCompileFromFile(
+			//L"Resources/shaders/BasicPixelShader.hlsl",	// シェーダファイル名
+			L"Resources/shaders/BasicPS.hlsl",
+			nullptr,
+			D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
+			"main", "ps_5_0",	// エントリーポイント名、シェーダーモデル指定
+			D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用設定
+			0,
+			&psBlob, &errorBlob);
+		if (FAILED(result)) {
+			// errorBlobからエラー内容をstring型にコピー
+			std::string errstr;
+			errstr.resize(errorBlob->GetBufferSize());
+
+			std::copy_n((char*)errorBlob->GetBufferPointer(),
+				errorBlob->GetBufferSize(),
+				errstr.begin());
+			errstr += "\n";
+			// エラー内容を出力ウィンドウに表示
+			OutputDebugStringA(errstr.c_str());
+			exit(1);
+		}
+	} else {
+		result = D3DCompileFromFile(
+			//L"Resources/shaders/BasicVertexShader.hlsl",	// シェーダファイル名
+			L"Resources/shaders/BasicVS.hlsl",
+			nullptr,
+			D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
+			"main", "vs_5_0",	// エントリーポイント名、シェーダーモデル指定
+			D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用設定
+			0,
+			&vsBlob, &errorBlob);
+		if (FAILED(result)) {
+			// errorBlobからエラー内容をstring型にコピー
+			std::string errstr;
+			errstr.resize(errorBlob->GetBufferSize());
+
+			std::copy_n((char*)errorBlob->GetBufferPointer(),
+				errorBlob->GetBufferSize(),
+				errstr.begin());
+			errstr += "\n";
+			// エラー内容を出力ウィンドウに表示
+			OutputDebugStringA(errstr.c_str());
+			exit(1);
+		}
+
+		// ピクセルシェーダの読み込みとコンパイル
+		result = D3DCompileFromFile(
+			//L"Resources/shaders/BasicPixelShader.hlsl",	// シェーダファイル名
+			L"Resources/shaders/BasicPS.hlsl",
+			nullptr,
+			D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
+			"main", "ps_5_0",	// エントリーポイント名、シェーダーモデル指定
+			D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用設定
+			0,
+			&psBlob, &errorBlob);
+		if (FAILED(result)) {
+			// errorBlobからエラー内容をstring型にコピー
+			std::string errstr;
+			errstr.resize(errorBlob->GetBufferSize());
+
+			std::copy_n((char*)errorBlob->GetBufferPointer(),
+				errorBlob->GetBufferSize(),
+				errstr.begin());
+			errstr += "\n";
+			// エラー内容を出力ウィンドウに表示
+			OutputDebugStringA(errstr.c_str());
+			exit(1);
+		}
 	}
-
-	// ピクセルシェーダの読み込みとコンパイル
-	result = D3DCompileFromFile(
-		//L"Resources/shaders/BasicPixelShader.hlsl",	// シェーダファイル名
-		L"Resources/shaders/BasicPS.hlsl",
-		nullptr,
-		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
-		"main", "ps_5_0",	// エントリーポイント名、シェーダーモデル指定
-		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用設定
-		0,
-		&psBlob, &errorBlob);
-	if (FAILED(result)) {
-		// errorBlobからエラー内容をstring型にコピー
-		std::string errstr;
-		errstr.resize(errorBlob->GetBufferSize());
-
-		std::copy_n((char*)errorBlob->GetBufferPointer(),
-			errorBlob->GetBufferSize(),
-			errstr.begin());
-		errstr += "\n";
-		// エラー内容を出力ウィンドウに表示
-		OutputDebugStringA(errstr.c_str());
-		exit(1);
-	}
-
 	// 頂点レイアウト
 	D3D12_INPUT_ELEMENT_DESC inputLayout[] = {
 		{ // xy座標(1行で書いたほうが見やすい)
@@ -358,13 +407,17 @@ void Object3d::Update()
 
 	const XMMATRIX& matViewProjection = camera->GetViewProjectionMatrix();
 	const XMFLOAT3& cameraPos = camera->GetEye();
-
+	offsetTimer+=0.001f;
+	if (offsetTimer > 360.0f) { offsetTimer = 0.0f; }
 	// 定数バッファへデータ転送
 	ConstBufferDataB0* constMap = nullptr;
 	result = constBuffB0->Map(0, nullptr, (void**)&constMap);
+	constMap->color = color;
 	constMap->viewproj = matViewProjection;
 	constMap->world = matWorld;
 	constMap->cameraPos = cameraPos;
+	constMap->par = 318;
+	constMap->offset = XMFLOAT2(0, -offsetTimer);
 	constBuffB0->Unmap(0, nullptr);
 	//当たり判定更新
 	if (collider) {

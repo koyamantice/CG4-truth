@@ -39,9 +39,12 @@ public: // サブクラス
 	// 定数バッファ用データ構造体B0
 	struct ConstBufferDataB0
 	{
+		XMFLOAT4 color;
 		XMMATRIX viewproj;    // ビュープロジェクション行列
 		XMMATRIX world; // ワールド行列
 		XMFLOAT3 cameraPos; // カメラ座標（ワールド座標）
+		float par;
+		XMFLOAT2 offset;
 	};
 
 private: // 定数
@@ -131,6 +134,9 @@ public: // 静的メンバ関数
 	/// <param name="move">移動量</param>
 	static void CameraMoveEyeVector(XMFLOAT3 move);
 
+
+
+	void SetColor(XMFLOAT4 Color) { this->color = Color; }
 private: // 静的メンバ変数
 	// デバイス
 	static ID3D12Device* device;
@@ -157,6 +163,7 @@ private: // 静的メンバ変数
 	// ライト
 	static LightGroup* lightGroup;
 
+	static bool Only;
 
 private:// 静的メンバ関数
 
@@ -263,6 +270,7 @@ protected: // メンバ変数
 	BaseCollider* collider = nullptr;
 
 	ComPtr<ID3D12Resource> constBuffB0; // 定数バッファ
+	float offsetTimer=0.0f;
 	// 色
 	XMFLOAT4 color = { 1,1,1,1 };
 	// ローカルスケール
@@ -279,6 +287,7 @@ protected: // メンバ変数
 	Model* model = nullptr;
 	// ビルボード
 	bool isBillboard = false;
+
 	//コライダー
 	//BaseCollider* collider = nullptr;
 };

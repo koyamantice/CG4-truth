@@ -5,8 +5,9 @@ SamplerState smp : register(s0);      // 0番スロットに設定されたサンプラー
 
 float4 main(VSOutput input) : SV_TARGET
 {
+	 input.uv = float2(input.uv.x + offset.x,input.uv.y + offset.y);
 	//// テクスチャマッピング
-	float4 texcolor = tex.Sample(smp, input.uv);
+	float4 texcolor = tex.Sample(smp,input.uv) *color;
 
 	//// 光沢度
 	//const float shininess = 4.0f;
@@ -40,7 +41,7 @@ float4 main(VSOutput input) : SV_TARGET
 	
 	const float _ThresholdMin=0.2;
 	const float _ThresholdMax=0.8;
-	float3 lightv = normalize(float3(0, 0, 1)); // 右下奥　向きのライト
+	float3 lightv = normalize(float3(0, 1, 0)); // 右下奥　向きのライト
 
 	float3 eyeDir = normalize(cameraPos - input.worldpos.xyz);
 	float3 halfVec = normalize(lightv + eyeDir);

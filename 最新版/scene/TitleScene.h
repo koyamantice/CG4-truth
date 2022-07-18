@@ -24,6 +24,11 @@ class TitleScene : public BaseScene {
 		/// •`‰æ
 		/// </summary>
 		void Draw(DirectXCommon* dxCommon) override;
+	
+		/// <summary>
+		/// •`‰æ
+		/// </summary>
+		void ImGuiDraw() override;
 
 	private:
 		Sprite* sprite = { nullptr };

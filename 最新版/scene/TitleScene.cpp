@@ -40,3 +40,6 @@ void TitleScene::Draw(DirectXCommon* dxCommon) {
 
 }
 
+void TitleScene::ImGuiDraw() {
+}
+

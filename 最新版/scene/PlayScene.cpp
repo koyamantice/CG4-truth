@@ -59,6 +59,14 @@ void PlayScene::Initialize(DirectXCommon* dxCommon) {
 	object->SetRotation({ 0,0,0 });
 	object->SetScale({ 3,3,3 });
 
+	//model3 = Model::CreateFromOBJ("ball");
+
+	//object3 = new Object3d;
+	//object3->Initialize();
+	//object3->SetModel(model3);
+	//object3->SetPosition({ -5,0,-8 });
+	//object3->SetRotation({ 0,0,0 });
+	//object3->SetScale({ 3,3,3 });
 
 }
 
@@ -69,15 +77,33 @@ void PlayScene::Finalize() {
 
 void PlayScene::Update(DirectXCommon* dxCommon) {
 	camera->Update();
+	//fbx
 	object1->Update();
+	//obj
 	object->Update();
+	object->SetColor(color);
 	object2->Update();
+	//object3->Update();
+
 	if (input->TriggerKey(DIK_SPACE)) {
 		object1->PlayAnimation();
 	}
 }
 
 void PlayScene::Draw(DirectXCommon* dxCommon) {
+	ImGuiDraw();
+	//Sprite::PreDraw();
+	//BG->Draw();
+
+	Object3d::PreDraw();
+	object2->Draw();
+	object->Draw();
+	//object3->Draw();
+	object1->Draw(dxCommon->GetCmdList());
+
+}
+
+void PlayScene::ImGuiDraw() {
 	//ImGui::Begin("test");
 	//if (ImGui::TreeNode("Debug"))
 	//{
@@ -92,12 +118,5 @@ void PlayScene::Draw(DirectXCommon* dxCommon) {
 	//	ImGui::TreePop();
 	//}
 	//ImGui::End();
-	//Sprite::PreDraw();
-	//BG->Draw();
-
-	Object3d::PreDraw();
-	object2->Draw();
-	object->Draw();
-	object1->Draw(dxCommon->GetCmdList());
 
 }

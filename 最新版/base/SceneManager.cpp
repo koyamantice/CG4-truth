@@ -30,6 +30,10 @@ void SceneManager::Draw(DirectXCommon* dxCommon) {
 	scene_->Draw(dxCommon);
 }
 
+void SceneManager::ImGuiDraw() {
+	scene_->ImGuiDraw();
+}
+
 void SceneManager::ChangeScene(const std::string& sceneName) {
 	assert(sceneFactory_);
 	assert(nextScene_ == nullptr);

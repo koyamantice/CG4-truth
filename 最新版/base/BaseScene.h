@@ -66,5 +66,7 @@ public:
 	/// </summary>
 	virtual void Draw(DirectXCommon* dxCommon)=0;
 
+	virtual void ImGuiDraw()=0;
+
 };
 

@@ -17,7 +17,7 @@ public:
 	/// </summary>
 	void Draw(DirectXCommon* dxCommon);
 
-
+	void ImGuiDraw();
 public:
 	//ŸƒV[ƒ“—\–ñ
 	void ChangeScene(const std::string& sceneName);

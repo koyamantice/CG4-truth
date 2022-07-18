@@ -356,7 +356,7 @@
     <None Include="Resources\shaders\PostEffectTest.hlsli">
       <Filter>シェーダーファイル</Filter>
     </None>
-    <None Include="Resources\shaders\Scroll.hlsli">
+    <None Include="Resources\shaders\Single.hlsli">
       <Filter>シェーダーファイル</Filter>
     </None>
   </ItemGroup>
@@ -391,10 +391,10 @@
     <FxCompile Include="Resources\shaders\PostEffectTestVS.hlsl">
       <Filter>シェーダーファイル</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\shaders\ScrollPS.hlsl">
+    <FxCompile Include="Resources\shaders\SinglePS.hlsl">
       <Filter>シェーダーファイル</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\shaders\ScrollVS.hlsl">
+    <FxCompile Include="Resources\shaders\SingleVS.hlsl">
       <Filter>シェーダーファイル</Filter>
     </FxCompile>
   </ItemGroup>

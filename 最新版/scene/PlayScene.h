@@ -30,16 +30,25 @@ public:
 	/// 描画
 	/// </summary>
 	void Draw(DirectXCommon* dxCommon) override;
+	void ImGuiDraw() override;
 
 private:
 	XMFLOAT3 cameraPos = { 0.0f,20.0f,0.0f };
 
+	XMFLOAT4 color = { 1,1,0,1 };
+
 	FBXModel* model1 = nullptr;
 	FBXObject3d* object1 = nullptr;
 	Model* model = nullptr;
+	
 	Object3d* object = nullptr;
+	
 	Model* model2 = nullptr;
+
 	Object3d* object2 = nullptr;
+	Model* model3 = nullptr;
+
+	Object3d* object3 = nullptr;
 
 
 	DebugCamera* camera = { nullptr };

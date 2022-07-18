@@ -8,30 +8,30 @@ struct PSOutput {
 	float4 target1 : SV_TARGET1;
 };
 
-//PSOutput main(VSOutput input) 
-//{
-//	PSOutput output;
-//	// テクスチャマッピング
-//	float4 texcolor = tex.Sample(smp, input.uv);
-//	// Lambert反射
-//	float3 light = normalize(float3(1,-1,1)); // 右下奥　向きのライト
-//	float diffuse = saturate(dot(-light, input.normal));
-//	float brightness = diffuse + 0.3f;
-//	float4 shadecolor = float4(brightness, brightness, brightness, 1.0f);
-//	// 陰影とテクスチャの色を合成
-//	output.target0= shadecolor * texcolor;
-//	output.target1=float4(1-(shadecolor * texcolor).rgb,1);
-//	return output;
-//}
-
-PSOutput main(VSOutput input) {
+PSOutput main(VSOutput input) 
+{
 	PSOutput output;
-	float3 light = normalize(float3(1, -1, 1)); // 右下奥　向きのライト
-	float4 color = float4(1,0,1,1);
+	// テクスチャマッピング
+	float4 texcolor = tex.Sample(smp, input.uv);
+	// Lambert反射
+	float3 light = normalize(float3(1,-1,1)); // 右下奥　向きのライト
 	float diffuse = saturate(dot(-light, input.normal));
 	float brightness = diffuse + 0.3f;
-	float4 shadecolor = float4(brightness, brightness, brightness, 1.0f);	
-	output.target0 = color * shadecolor;
-	output.target1 = color * shadecolor;
+	float4 shadecolor = float4(brightness, brightness, brightness, 1.0f);
+	// 陰影とテクスチャの色を合成
+	output.target0= shadecolor * texcolor;
+	output.target1=float4(1-(shadecolor * texcolor).rgb,1);
 	return output;
 }
+//
+//PSOutput main(VSOutput input) {
+//	PSOutput output;
+//	float3 light = normalize(float3(1, -1, 1)); // 右下奥　向きのライト
+//	float4 color = float4(1,0,1,1);
+//	float diffuse = saturate(dot(-light, input.normal));
+//	float brightness = diffuse + 0.3f;
+//	float4 shadecolor = float4(brightness, brightness, brightness, 1.0f);	
+//	output.target0 = color * shadecolor;
+//	output.target1 = color * shadecolor;
+//	return output;
+//}

@@ -45,6 +45,8 @@ public:
 	bool IsEndRequst() { return endResquest_; }
 protected:
 	bool endResquest_ = false;
+
+	bool post = true;
 	WinApp* winApp = nullptr;
 	DirectXCommon* dxcommon = nullptr;
 	PostEffect* postEffect = nullptr;

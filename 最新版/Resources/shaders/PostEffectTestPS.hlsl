@@ -21,27 +21,27 @@ float4 main(VSOutput input) :SV_TARGET
 	float4 colortex1 = tex1.Sample(smp,input.uv);
 
 	float4 color = colortex0;
-	if (fmod(input.uv.y,0.1f)<0.05f) {
-		color = colortex1;
-	}
 
 	float2 movePixel = 1.0f / 0.2f;
-	movePixel *= 0.0001f;
+	movePixel *= 0.001f;
 
-	//// ぼかし処理をかける
-	//color = tex.Sample(smp, input.uv);  // 自分自身のピクセル
-	//// 正方向(右、上)の隣のピクセル/
-	//color += tex.Sample(smp, input.uv + movePixel * 1.0f);
-	//color += tex.Sample(smp, input.uv + movePixel * 2.0f);
-	//color += tex.Sample(smp, input.uv + movePixel * 3.0f);
-	//color += tex.Sample(smp, input.uv + movePixel * 4.0f);
-	//// 負方向(左、下)の隣のピクセル
-	//color += tex.Sample(smp, input.uv - movePixel * 1.0f);
-	//color += tex.Sample(smp, input.uv - movePixel * 2.0f);
-	//color += tex.Sample(smp, input.uv - movePixel * 3.0f);
-	//color += tex.Sample(smp, input.uv - movePixel * 4.0f);
-	//// 足し合わせたピクセルの平均を求める
-	//color /= 9.0f;
+	if (fmod(input.uv.y,0.1f)<0.05f) {
+		// ぼかし処理をかける
+		color = tex1.Sample(smp, input.uv);  // 自分自身のピクセル
+		// 正方向(右、上)の隣のピクセル/
+		color += tex1.Sample(smp, input.uv + movePixel * 1.0f);
+		color += tex1.Sample(smp, input.uv + movePixel * 2.0f);
+		color += tex1.Sample(smp, input.uv + movePixel * 3.0f);
+		color += tex1.Sample(smp, input.uv + movePixel * 4.0f);
+		// 負方向(左、下)の隣のピクセル
+		color += tex1.Sample(smp, input.uv - movePixel * 1.0f);
+		color += tex1.Sample(smp, input.uv - movePixel * 2.0f);
+		color += tex1.Sample(smp, input.uv - movePixel * 3.0f);
+		color += tex1.Sample(smp, input.uv - movePixel * 4.0f);
+		// 足し合わせたピクセルの平均を求める
+		color /= 9.0f;
+	}
+
 
 	return float4(color.rgb,1);
 }

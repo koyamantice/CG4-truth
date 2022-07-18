@@ -100,16 +100,30 @@ void Framework::Update(DirectXCommon* dxCommon) {
 		endResquest_ = true;
 		return;
 	}
+	if (input->TriggerKey(DIK_P)) {
+		if (post) { post = false; }else{ post = true; }
+	}
 	SceneManager::GetInstance()->Update(dxCommon);
 }
 
 void Framework::Draw(DirectXCommon* dxCommon) {
-	postEffect->PreDrawScene(dxCommon->GetCmdList());
-	SceneManager::GetInstance()->Draw(dxCommon);
-	postEffect->PostDrawScene(dxCommon->GetCmdList());
+	if (post) {
+		postEffect->PreDrawScene(dxCommon->GetCmdList());
+		SceneManager::GetInstance()->Draw(dxCommon);
+		postEffect->PostDrawScene(dxCommon->GetCmdList());
 
-	dxCommon->PreDraw();
-	postEffect->Draw(dxCommon->GetCmdList());
-	debugText->DrawAll();
-	dxCommon->PostDraw();
+		dxCommon->PreDraw();
+		postEffect->Draw(dxCommon->GetCmdList());
+		debugText->DrawAll();
+		dxCommon->PostDraw();
+	} else {
+		postEffect->PreDrawScene(dxCommon->GetCmdList());
+		//SceneManager::GetInstance()->Draw(dxCommon);
+		postEffect->PostDrawScene(dxCommon->GetCmdList());
+
+		dxCommon->PreDraw();
+		SceneManager::GetInstance()->Draw(dxCommon);
+		debugText->DrawAll();
+		dxCommon->PostDraw();
+	}
 }

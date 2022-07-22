@@ -41,14 +41,6 @@ void PlayScene::Initialize(DirectXCommon* dxCommon) {
 
 
 
-	model2 = Model::CreateFromOBJ("skydome");
-
-	object2 = new Object3d;
-	object2->Initialize();
-	object2->SetModel(model2);
-	object2->SetPosition({ 3,0,0 });
-	object2->SetRotation({ 0,0,0 });
-	object2->SetScale({ 3,3,3 });
 
 	model = Model::CreateFromOBJ("dragon");
 
@@ -59,14 +51,17 @@ void PlayScene::Initialize(DirectXCommon* dxCommon) {
 	object->SetRotation({ 0,0,0 });
 	object->SetScale({ 3,3,3 });
 
-	//model3 = Model::CreateFromOBJ("ball");
+	//model3 = Model::CreateFromOBJ("dragon");
+	model2 = Model::CreateFromOBJ("skydome");
 
-	//object3 = new Object3d;
-	//object3->Initialize();
-	//object3->SetModel(model3);
-	//object3->SetPosition({ -5,0,-8 });
-	//object3->SetRotation({ 0,0,0 });
-	//object3->SetScale({ 3,3,3 });
+	object2 = new Object3d;
+	object2->Initialize();
+	object2->SetModel(model2);
+	object2->SetPosition({ 3,0,0 });
+	object2->SetRotation({ 0,0,0 });
+	object2->SetScale({ 3,3,3 });
+
+
 
 }
 
@@ -83,7 +78,6 @@ void PlayScene::Update(DirectXCommon* dxCommon) {
 	object->Update();
 	object->SetColor(color);
 	object2->Update();
-	//object3->Update();
 
 	if (input->TriggerKey(DIK_SPACE)) {
 		object1->PlayAnimation();
@@ -98,7 +92,6 @@ void PlayScene::Draw(DirectXCommon* dxCommon) {
 	Object3d::PreDraw();
 	object2->Draw();
 	object->Draw();
-	//object3->Draw();
 	object1->Draw(dxCommon->GetCmdList());
 
 }

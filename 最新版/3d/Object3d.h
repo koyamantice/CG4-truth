@@ -63,7 +63,8 @@ public: // 静的メンバ関数
 	/// <summary>
 	/// グラフィックパイプラインの生成
 	/// </summary>
-	static void CreateGraphicsPipeline();
+	void CreateGraphicsPipeline();
+	void CreateGraphicsPipelineSingle();
 
 	/// <summary>
 	/// 描画前処理
@@ -163,8 +164,6 @@ private: // 静的メンバ変数
 	// ライト
 	static LightGroup* lightGroup;
 
-	static bool Only;
-
 private:// 静的メンバ関数
 
 	/// <summary>
@@ -195,7 +194,7 @@ public: // メンバ関数
 	/// </summary>
 	/// <returns>成否</returns>
 	//bool Initialize();
-	virtual bool Initialize();
+	virtual bool Initialize(bool single=false);
 
 	/// <summary>
 	/// 毎フレーム処理

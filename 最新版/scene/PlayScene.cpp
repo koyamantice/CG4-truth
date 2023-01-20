@@ -12,7 +12,7 @@
 void PlayScene::Initialize(DirectXCommon* dxCommon) {
 	// カメラ生成
 	camera = new DebugCamera(WinApp::window_width, WinApp::window_height);
-	camera->SetTarget({0,2.5f,0});
+	camera->SetTarget({ 0,2.5f,0 });
 	camera->SetDistance(1.0f);
 	// ライト生成
 	lightGroup = LightGroup::Create();
@@ -24,7 +24,7 @@ void PlayScene::Initialize(DirectXCommon* dxCommon) {
 	Object3d::SetLightGroup(lightGroup);
 	//背景スプライト生成
 	Sprite::LoadTexture(0, L"Resources/2d/background.png");
-	BG=Sprite::Create(0, {0,0});
+	BG = Sprite::Create(0, { 0,0 });
 	// モデル読み込み
 	Audio::GetInstance()->LoadSound(1, "Resources/BGM/NewWorld.wav");
 	model1 = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
@@ -37,7 +37,17 @@ void PlayScene::Initialize(DirectXCommon* dxCommon) {
 	object1 = new FBXObject3d;
 	object1->Initialize();
 	object1->SetModel(model1);
-	object1->SetRotation({0,90,0});
+	object1->SetRotation({ 0,90,0 });
+
+	model = Model::CreateFromOBJ("chr_knight");
+
+	object = new Object3d;
+	object->Initialize();
+	object->SetModel(model);
+	object->SetPosition({ 3,0,0 });
+	object->SetRotation({ 0,0,0 });
+
+
 }
 
 void PlayScene::Finalize() {
@@ -48,6 +58,7 @@ void PlayScene::Finalize() {
 void PlayScene::Update(DirectXCommon* dxCommon) {
 	camera->Update();
 	object1->Update();
+	object->Update();
 	if (input->TriggerKey(DIK_SPACE)) {
 		object1->PlayAnimation();
 	}
@@ -72,6 +83,7 @@ void PlayScene::Draw(DirectXCommon* dxCommon) {
 	//BG->Draw();
 
 	Object3d::PreDraw();
+	object->Draw();
 	object1->Draw(dxCommon->GetCmdList());
 
 }

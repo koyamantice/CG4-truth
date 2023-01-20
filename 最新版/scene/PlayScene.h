@@ -36,6 +36,9 @@ private:
 
 	FBXModel* model1 = nullptr;
 	FBXObject3d* object1 = nullptr;
+	Model* model = nullptr;
+	Object3d* object = nullptr;
+
 	DebugCamera* camera = { nullptr };
 	Sprite* BG = nullptr;
 };

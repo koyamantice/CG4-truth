@@ -30,7 +30,7 @@ public:
 
     void CreateGraphicsPipelineState();
 public:
-    ComPtr<ID3D12Resource> texBuff;
+    ComPtr<ID3D12Resource> texBuff[2];
 
     ComPtr<ID3D12DescriptorHeap> descHeapSRV;
     ComPtr<ID3D12Resource> depthBuff;
